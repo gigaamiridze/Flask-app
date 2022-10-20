@@ -1,0 +1,26 @@
+version: "3.9" # Version of YAML optional since v1.27.0
+services:
+  web:
+    build: .
+    ports:
+      - 7777:7777
+    networks:
+      - network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.4-alpine
+    ports:
+      - 5432:5432
+    networks:
+      - network
+    volumes:
+      - /data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+
+networks:
+  network:
+    driver: bridge
